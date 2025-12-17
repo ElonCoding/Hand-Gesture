@@ -21,12 +21,31 @@
     <div id="ui-overlay">
       <div id="status">Initializing...</div>
       <div id="shape-indicator">Current Shape: <span id="current-shape">Sphere</span></div>
+      <div id="gesture-info">Gesture: <span id="current-gesture">Open Hand</span></div>
+      <div id="pinch-indicator" style="display: none;">📌 Pinch Detected!</div>
+      <div id="pinch-debug" style="display: none; position: absolute; top: 160px; left: 20px; color: #fff; background: rgba(0, 0, 0, 0.7); padding: 8px 12px; border-radius: 6px; font-size: 10px; font-family: monospace;"></div>
+      <div id="pinch-meter" style="display: none; position: absolute; top: 200px; left: 20px; width: 120px; height: 8px; background: rgba(0, 0, 0, 0.5); border-radius: 4px; overflow: hidden;">
+        <div id="pinch-charge" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ffeb3b, #ff9800); border-radius: 4px; transition: width 0.1s ease;"></div>
+      </div>
+      <div id="calibration-status" style="display: none; position: absolute; top: 215px; left: 20px; color: #4caf50; background: rgba(0, 0, 0, 0.7); padding: 4px 8px; border-radius: 4px; font-size: 10px; font-family: monospace;">
+        📏 Calibrated
+      </div>
+      <div id="pinch-tutorial" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.9); color: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 300px; z-index: 1000;">
+        <h3>🤏 Pinch to Switch Shapes!</h3>
+        <p>Touch your thumb and index finger together to switch between particle shapes.</p>
+        <div style="margin: 15px 0; font-size: 24px;">👍 → 🤏 → ✨</div>
+        <p><small>The charge meter will show when you're ready to switch!</small></p>
+        <button onclick="this.parentElement.style.display='none'" style="background: #4caf50; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Got it!</button>
+      </div>
       <div id="instructions">
         <p>👋 Move your hand to control particles</p>
         <p>🤏 Pinch to switch shapes</p>
         <p>✋ Open/close hand to change size</p>
         <div id="shape-list">
           <small>Available shapes: Sphere → Heart → Ring → Spiral → Cube → Wave → Torus → Star</small>
+        </div>
+        <div id="controls">
+          <small>Keyboard: [1-3] Quality | [Space] Switch | [R] Reset | [D] Debug | [C] Calibrate Pinch | [B] Background Quality | [N] Color Palette | [M] Background UI</small>
         </div>
       </div>
     </div>
