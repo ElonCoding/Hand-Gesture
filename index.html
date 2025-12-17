@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Three.js Hand Gesture Particle System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- MediaPipe Hands -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+
+  <!-- Three.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="container">
+    <video id="video" autoplay muted playsinline></video>
+    <canvas id="three-canvas"></canvas>
+    <div id="ui-overlay">
+      <div id="status">Initializing...</div>
+      <div id="shape-indicator">Current Shape: <span id="current-shape">Sphere</span></div>
+      <div id="instructions">
+        <p>👋 Move your hand to control particles</p>
+        <p>🤏 Pinch to switch shapes</p>
+        <p>✋ Open/close hand to change size</p>
+        <div id="shape-list">
+          <small>Available shapes: Sphere → Heart → Ring → Spiral → Cube → Wave → Torus → Star</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
