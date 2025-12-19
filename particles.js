@@ -24,6 +24,11 @@ let performanceOptimizer = {
   quality: 'high'
 };
 
+// Easing function for smooth transitions
+function easeInOutCubic(t) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
 // Templates and cache
 const templates = ["sphere", "heart", "ring", "spiral", "cube", "wave", "torus", "star"];
 const shapeCache = new Map();
@@ -246,6 +251,15 @@ export function updateParticles(gestureState) {
   const openness = gestureState.openness || 0;
   const gestureType = gestureState.gestureType || 'none';
   
+  // Handle smooth transitions
+  if (isTransitioning) {
+    transitionProgress += 0.015; // Smooth transition speed
+    if (transitionProgress >= 1) {
+      transitionProgress = 1;
+      isTransitioning = false;
+    }
+  }
+  
   // Cache current template data
   const templateData = shapeCache.get(templates[currentTemplate]) || [];
   
@@ -255,10 +269,25 @@ export function updateParticles(gestureState) {
     // Get cached shape position
     const shapePos = templateData[i] || { x: 0, y: 0, z: 0 };
     
+    let targetX, targetY, targetZ;
+    
+    // Handle smooth transition interpolation
+    if (isTransitioning && previousPositions.length > 0 && targetPositions.length > 0) {
+      const easedProgress = easeInOutCubic(transitionProgress);
+      targetX = previousPositions[i3] + (targetPositions[i3] - previousPositions[i3]) * easedProgress;
+      targetY = previousPositions[i3 + 1] + (targetPositions[i3 + 1] - previousPositions[i3 + 1]) * easedProgress;
+      targetZ = previousPositions[i3 + 2] + (targetPositions[i3 + 2] - previousPositions[i3 + 2]) * easedProgress;
+    } else {
+      // Normal position (no transition)
+      targetX = shapePos.x;
+      targetY = shapePos.y;
+      targetZ = shapePos.z;
+    }
+    
     // Update positions with shape and hand influence
-    positionsArray[i3] = shapePos.x + handX * 0.5;
-    positionsArray[i3 + 1] = shapePos.y + handY * 0.5;
-    positionsArray[i3 + 2] = shapePos.z;
+    positionsArray[i3] = targetX + handX * 0.5;
+    positionsArray[i3 + 1] = targetY + handY * 0.5;
+    positionsArray[i3 + 2] = targetZ;
     
     // Apply hand openness scaling
     const scale = 0.5 + openness * 1.5;
@@ -379,14 +408,23 @@ export function switchTemplate() {
   if (switchCooldown) return;
   
   switchCooldown = true;
-  setTimeout(() => (switchCooldown = false), 600);
+  setTimeout(() => (switchCooldown = false), 1200); // Extended cooldown for smooth transition
 
-  currentTemplate = (currentTemplate + 1) % templates.length;
-  updateShapeDisplay();
-  
+  // Store current positions as starting point for transition
   if (geometry && geometry.attributes && geometry.attributes.position) {
     const positions = geometry.attributes.position.array;
     previousPositions = [...positions];
+  }
+  
+  currentTemplate = (currentTemplate + 1) % templates.length;
+  updateShapeDisplay();
+  
+  // Get target positions for the new shape
+  const templateData = shapeCache.get(templates[currentTemplate]) || [];
+  targetPositions = [];
+  for (let i = 0; i < performanceOptimizer.particleCount; i++) {
+    const shapePos = templateData[i] || { x: 0, y: 0, z: 0 };
+    targetPositions.push(shapePos.x, shapePos.y, shapePos.z);
   }
   
   transitionProgress = 0;
