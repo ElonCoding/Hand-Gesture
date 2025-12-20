@@ -129,11 +129,12 @@ function cacheShapeData(count) {
           break;
           
         case "ring":
+          // Clean 2D ring - particles distributed evenly around the circle
           const ringAngle = progress * Math.PI * 2;
-          const ringRadius = 1.5 + (Math.random() - 0.5) * 0.3;
+          const ringRadius = 1.5; // Fixed radius for clean ring
           x = ringRadius * Math.cos(ringAngle);
           y = ringRadius * Math.sin(ringAngle);
-          z = (Math.random() - 0.5) * 0.3;
+          z = 0; // Flat on Z-plane for clean 2D ring
           break;
           
         case "spiral":

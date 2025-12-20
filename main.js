@@ -46,20 +46,8 @@ function init() {
   try {
     scene = new THREE.Scene();
     
-    // Enhanced background with gradient
-    const bgCanvas = document.createElement('canvas');
-    bgCanvas.width = 256;
-    bgCanvas.height = 256;
-    const context = bgCanvas.getContext('2d');
-    const gradient = context.createRadialGradient(128, 128, 0, 128, 128, 128);
-    gradient.addColorStop(0, '#1a1a2e');
-    gradient.addColorStop(0.5, '#16213e');
-    gradient.addColorStop(1, '#0f0f23');
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, 256, 256);
-    
-    const backgroundTexture = new THREE.CanvasTexture(bgCanvas);
-    scene.background = backgroundTexture;
+    // Pure black background
+    scene.background = new THREE.Color(0x000000);
 
     camera = new THREE.PerspectiveCamera(
       75,
