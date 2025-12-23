@@ -1,0 +1,27 @@
+{
+  "name": "voice-activation-system",
+  "version": "1.0.0",
+  "description": "Voice activation system with Google Gemini API integration",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "setup": "node setup.js",
+    "start": "node examples.js",
+    "test": "node -e \"import('./setup.js').then(m => m.setupEnvironment())\""
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1"
+  },
+  "keywords": [
+    "voice-activation",
+    "speech-recognition",
+    "google-gemini",
+    "voice-control",
+    "audio-processing"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
